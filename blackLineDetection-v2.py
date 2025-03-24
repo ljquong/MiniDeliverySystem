@@ -1,6 +1,6 @@
 from machine import Pin, PWM
 from time import sleep
-from hcsr04 import HCSR04 # Must have this library saved on Pico to work
+from hcsr04 import HCSR04
 
 # Initialize sensor with trigger and echo pins
 sensor = HCSR04(trigger_pin=21, echo_pin=20)
@@ -51,12 +51,9 @@ def motor_b(direction = "stop", speed = 0):
         motor_b_in4.value(0)
     motor_b_en.duty_u16(int(adjusted_speed * 65535 / 100))  # Speed: 0-100%
 
-
-# Example
-#put this in a function
 while True:
     motor_a("forward", 35)
-    motor_b("backward", 35)
+    motor_b("forward", 35)
     sleep(0.1)
     if line_sen.value() == 0:
         motor_a()
