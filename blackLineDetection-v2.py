@@ -52,6 +52,7 @@ def motor_b(direction = "stop", speed = 0):
     motor_b_en.duty_u16(int(adjusted_speed * 65535 / 100))  # Speed: 0-100%
     
 while True:
+    # move forward until IR proximity detector finds the black line
     motor_a("forward", 31)
     motor_b("forward", 31)
     sleep(0.1)
@@ -59,12 +60,13 @@ while True:
         motor_a()
         motor_b()
         break
-    
+
+# make 90 degree turn 
 sleep(3)
 motor_a("forward", 35)
 motor_b("backward", 35)
 sleep(0.39)
-
+# stop
 motor_a()
 motor_b()
 
