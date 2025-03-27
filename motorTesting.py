@@ -1,7 +1,8 @@
 from machine import Pin, PWM
 from time import sleep
 from hcsr04 import HCSR04
-from servo import Servo 
+from servo import Servo
+import stepper
 
 # motor a, LEFT motor
 motor_a_in1 = Pin(6, Pin.OUT)
@@ -23,6 +24,8 @@ line_sen = Pin(16, Pin.IN)
 sensor_a = HCSR04(trigger_pin=21, echo_pin=20)
 # back sensor
 sensor_b = HCSR04(trigger_pin=19, echo_pin=18)
+# left sensor
+sensor_c = HCSR04(trigger_pin=19, echo_pin=18)
 
 button = Pin(10, Pin.IN, Pin.PULL_DOWN)
 reed_switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
@@ -63,6 +66,23 @@ def motor_b(direction = "stop", speed = 0):
         motor_b_in4.value(0)
     motor_b_en.duty_u16(int(adjusted_speed * 65535 / 100))  # Speed: 0-100%
     
+def stop():
+    # stops both motors
+    motor_a()
+    motor_b()
+    
+def turn_right():
+    motor_a("forward", 35)
+    motor_b("backward", 35)
+    sleep(0.39)
+    stop()
+    
+def turn_left():
+    motor_a("backward", 35)
+    motor_b("forward", 35)
+    sleep(0.39)
+    stop()
+    
 # robot starts in start-up area, facing black line, no obstacles
 # move forward until black line is found, then turn to the right, begin while True
 
@@ -79,7 +99,29 @@ def find_black_line():
         # if black line is missed/if ultrasonic sensors detect obstacle, turn back around and look again?
 
 def obstacle_maneuver():
-    pass     
+    # move backward 5cm
+    motor_a("backward", 35)
+    motor_b("backward", 35)
+    sleep(0.25)
+    stop()
+    turn_right()
+    while True:
+        motor_a("forward", 35)
+        motor_b("forward", 35)
+        sleep (0.1)
+        if sensor_c.distance_cm() > 5:
+            # no object detected, obstacle has passed
+            break
+    turn_left()
+    while True:
+        motor_a("forward", 35)
+        motor_b("forward", 35)
+        sleep (0.1)
+        if sensor_c.distance_cm() > 5:
+            # no object detected, obstacle has passed
+            break
+    find_black_line
+    turn_right()
 
 def obstacle_detection(direction = "front"):
     object_detected = False
@@ -113,7 +155,7 @@ def payload_pickup():
         if reed_switch.value() == 1:
             # if reed switch still detects magnet, payload has successfully been picked up
             # end loop
-            sleep(0.78)
+            #sleep(0.78)
             break
         else:
             # if payload has not successfully been picked up
@@ -181,4 +223,3 @@ while True:
     
 # moves approx 13cm at speed 35 for 0.5 seconds
 # 90 degree turn at speed 35 for 0.39
-# TO DO: obstacle maneuvering & going back to black line; stepper operation; making sure to stay on the black line
