@@ -5,38 +5,46 @@ from servo import Servo
 import stepper
 
 # motor a, LEFT motor
-motor_a_in1 = Pin(6, Pin.OUT)
-motor_a_in2 = Pin(7, Pin.OUT)
-motor_a_en = PWM(Pin(8))
+motor_a_in1 = Pin(3, Pin.OUT)
+motor_a_in2 = Pin(4, Pin.OUT)
+motor_a_en = PWM(Pin(2))
 motor_a_en.freq(1000)
 motor_a_correction = 1.0 # Adjust so both motors have same speed
 
 # motor b, RIGHT motor
-motor_b_in3 = Pin(4, Pin.OUT)
-motor_b_in4 = Pin(3, Pin.OUT)
-motor_b_en = PWM(Pin(2))
+motor_b_in3 = Pin(6, Pin.OUT)
+motor_b_in4 = Pin(7, Pin.OUT)
+motor_b_en = PWM(Pin(8))
 motor_b_en.freq(1000)
 motor_b_correction = 1.0 # Adjust so both motors have same speed
 
-line_sen = Pin(16, Pin.IN)
+line_sen = Pin(26, Pin.IN)
 
 # front sensor
-sensor_a = HCSR04(trigger_pin=21, echo_pin=20)
+sensor_a = HCSR04(trigger_pin=18, echo_pin=19)
 # back sensor
-sensor_b = HCSR04(trigger_pin=19, echo_pin=18)
+sensor_b = HCSR04(trigger_pin=16, echo_pin=17)
 # left sensor
-sensor_c = HCSR04(trigger_pin=19, echo_pin=18)
+sensor_c = HCSR04(trigger_pin=13, echo_pin=12)
 
-button = Pin(10, Pin.IN, Pin.PULL_DOWN)
-reed_switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
+button = Pin(27, Pin.IN, Pin.PULL_DOWN)
+reed_switch = Pin(20, Pin.IN, Pin.PULL_DOWN)
 
-# LEFT servo
-servo_a = Servo(Pin(22))
 # RIGHT servo
+servo_a = Servo(Pin(22))
+# LEFT servo
 servo_b = Servo(Pin(21))
 
 # MUST TEST IR READ VALUES
 ir = ADC(28)
+
+# stepper
+IN1 = 9
+IN2 = 5
+IN3 = 1
+IN4 = 0
+
+stepper_motor = stepper.HalfStepMotor.frompins(IN1, IN2, IN3, IN4)
 
 # Function to control Motor A
 def motor_a(direction = "stop", speed = 0):
