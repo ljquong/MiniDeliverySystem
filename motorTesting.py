@@ -80,6 +80,7 @@ def stop():
     motor_b()
     
 def turn_right():
+    # turn 90 degrees to the right
     motor_a("forward", 35)
     motor_b("backward", 35)
     sleep(0.39)
@@ -217,12 +218,11 @@ def payload_delivery():
 servo_a.move(0)
 servo_b.move(180)
 
+stepper_motor.reset()
+
 find_black_line()
 
-# turn 180 degrees to the right
-motor_a("forward", 35)
-motor_b("backward", 35)
-sleep(0.39)
+turn_right()
 # now on black line, facing retrieval area
 
 while True:
