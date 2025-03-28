@@ -196,7 +196,7 @@ def payload_delivery():
         motor_a("forward", 35)
         motor_b("backward", 35)
         sleep (0.5)
-        if ir.read_u16() == 1: # ARBITARY VALUE, MUST CHANGE
+        if ir.read_u16() > 2300:
             # drop off area has been reached, turn 180 degrees and deposit payload
             motor_a("forward", 35)
             motor_b("backward", 35)
