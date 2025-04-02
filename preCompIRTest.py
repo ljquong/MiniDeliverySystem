@@ -5,7 +5,7 @@ ir = ADC(28)
 led = Pin('LED', Pin.OUT)
 
 while True:
-    if ir.read_u16() > 2300: # abitrary value, must test output values
+    if ir.read_u16() > 2300:
         led.on()
     else:
         led.off()
