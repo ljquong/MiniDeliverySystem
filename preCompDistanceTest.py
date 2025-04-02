@@ -1,9 +1,9 @@
 from machine import Pin, PWM
 from time import sleep
 
-motor_a_in1 = Pin(6, Pin.OUT)
-motor_a_in2 = Pin(7, Pin.OUT)
-motor_a_en = PWM(Pin(8))
+motor_a_in1 = Pin(14, Pin.OUT)
+motor_a_in2 = Pin(13, Pin.OUT)
+motor_a_en = PWM(Pin(15))
 motor_a_en.freq(1000)
 motor_a_correction = 1.0
 
