@@ -42,6 +42,7 @@ def motor_b(direction = "stop", speed = 0):
     motor_b_en.duty_u16(int(adjusted_speed * 65535 / 100))
 
 # move forward approximately four feet
+sleep(0.5)
 motor_a("forward", 35)
 motor_b("backward", 35)
 sleep(6)
