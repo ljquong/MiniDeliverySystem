@@ -74,6 +74,7 @@ while True:
         motor_a("forward", 50)
         motor_b("backward", 51)
         sleep(1)
+        stop()
         break
     
 sleep(60)
