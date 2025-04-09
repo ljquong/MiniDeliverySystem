@@ -23,6 +23,8 @@ sensor_b = HCSR04(trigger_pin=12, echo_pin=11)
 # left sensor
 sensor_c = HCSR04(trigger_pin=8, echo_pin=9)
 
+line_sen = Pin(26, Pin.IN)
+
 def motor_a(direction = "stop", speed = 0):
     adjusted_speed = int(speed * motor_a_correction)
     if direction == "forward":
@@ -54,51 +56,81 @@ def stop():
     motor_b()
     sleep(1)
     
+# a: 50
+# b: 51
 while True:
-    motor_a("forward", 50)
-    motor_b("backward", 51)
+    motor_a("forward", 60)
+    motor_b("backward", 60)
     sleep(0.1)
     if sensor_a.distance_cm() < 18: #obstacle detected
         stop()
         # turn right
         motor_a("forward", 50) # right turn
         motor_b("forward", 50)
-        sleep(0.44)
+        sleep(0.48) # 0.44
         stop()
         break
 while True:
-    motor_a("forward", 50)
-    motor_b("backward", 51)
+    motor_a("forward", 60)
+    motor_b("backward", 60)
     sleep(0.1)
     if sensor_c.distance_cm() > 100: #obstacle passed
-        motor_a("forward", 50)
-        motor_b("backward", 51)
-        sleep(0.7)
+        motor_a("forward", 60)
+        motor_b("backward", 60)
+        sleep(0.5)
+        stop()
+        # turn left
+        motor_a("backward", 50) # left turn
+        motor_b("backward", 50)
+        sleep(0.44) # 0.409
+        stop()
+        break
+while True:
+    motor_a("forward", 60)
+    motor_b("backward", 60)
+    sleep(0.1)
+    if sensor_c.distance_cm() > 100: #obstacle passed
+        motor_a("forward", 60)
+        motor_b("backward", 60)
+        sleep(0.4)
         stop()
         # turn right
         motor_a("backward", 50) # left turn
         motor_b("backward", 50)
-        sleep(0.409)
+        sleep(0.44) # 0.409
         stop()
-        motor_a("forward", 50)
-        motor_b("backward", 51)
-        sleep(1)
         break
 while True:
-    motor_a("forward", 50)
-    motor_b("backward", 51)
+    motor_a("forward", 60)
+    motor_b("backward", 60)
     sleep(0.1)
-    if sensor_c.distance_cm() > 100: #obstacle passed
-        motor_a("forward", 50)
-        motor_b("backward", 51)
-        sleep(0.7)
+    if line_sen.value() == 0:
         stop()
-        # turn right
-        motor_a("backward", 50) # left turn
-        motor_b("backward", 50)
-        sleep(0.409)
+        motor_a("forward", 50) # right turn
+        motor_b("forward", 50)
+        sleep(0.48)
         stop()
         break
+motor_a("forward", 60)
+motor_b("backward", 60)
+sleep(1)
 
 led.on()
 sleep(60)
+# move forward approximately four feet
+'''sleep(0.5)
+motor_a("forward", 50) #50
+motor_b("backward", 51) #54
+sleep(6) #6'''
+# stop for one minute
+#sleep(0.5)
+'''motor_a("forward", 50) # right turn
+motor_b("forward", 50)
+sleep(0.44)'''
+#motor_a("backward", 50) # left turn
+#motor_b("backward", 50)
+#sleep(0.405)
+#motor_a()
+#motor_b()
+#sleep(60)
+
