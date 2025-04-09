@@ -59,60 +59,66 @@ def stop():
 # a: 50
 # b: 51
 while True:
-    motor_a("forward", 60)
-    motor_b("backward", 60)
+    motor_a("forward", 45)
+    motor_b("backward", 45)
     sleep(0.1)
-    if sensor_a.distance_cm() < 18: #obstacle detected
+    if sensor_a.distance_cm() < 15: #obstacle detected
         stop()
         # turn right
         motor_a("forward", 50) # right turn
         motor_b("forward", 50)
-        sleep(0.48) # 0.44
+        sleep(0.3) # 0.44
         stop()
         break
+motor_a("forward", 45)
+motor_b("backward", 45)
+sleep(0.8)
 while True:
-    motor_a("forward", 60)
-    motor_b("backward", 60)
+    motor_a("forward", 45)
+    motor_b("backward", 45)
     sleep(0.1)
-    if sensor_c.distance_cm() > 100: #obstacle passed
-        motor_a("forward", 60)
-        motor_b("backward", 60)
-        sleep(0.5)
+    if sensor_c.distance_cm() > 35: #obstacle passed
+        motor_a("forward", 45)
+        motor_b("backward", 45)
+        sleep(0.4)
         stop()
         # turn left
         motor_a("backward", 50) # left turn
         motor_b("backward", 50)
-        sleep(0.44) # 0.409
+        sleep(0.32) # 0.409
         stop()
         break
+motor_a("forward", 45)
+motor_b("backward", 45)
+sleep(0.8)
 while True:
-    motor_a("forward", 60)
-    motor_b("backward", 60)
+    motor_a("forward", 45)
+    motor_b("backward", 45)
     sleep(0.1)
-    if sensor_c.distance_cm() > 100: #obstacle passed
-        motor_a("forward", 60)
-        motor_b("backward", 60)
+    if sensor_c.distance_cm() > 35: #obstacle passed
+        motor_a("forward", 45)
+        motor_b("backward", 45)
         sleep(0.4)
         stop()
         # turn right
         motor_a("backward", 50) # left turn
         motor_b("backward", 50)
-        sleep(0.44) # 0.409
+        sleep(0.32) # 0.409
         stop()
         break
 while True:
-    motor_a("forward", 60)
-    motor_b("backward", 60)
+    motor_a("forward", 40)
+    motor_b("backward", 40)
     sleep(0.1)
     if line_sen.value() == 0:
         stop()
         motor_a("forward", 50) # right turn
         motor_b("forward", 50)
-        sleep(0.48)
+        sleep(0.32)
         stop()
         break
-motor_a("forward", 60)
-motor_b("backward", 60)
+motor_a("forward", 45)
+motor_b("backward", 45)
 sleep(1)
 
 led.on()
