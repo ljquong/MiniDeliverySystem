@@ -102,19 +102,3 @@ while True:
 
 led.on()
 sleep(60)
-# move forward approximately four feet
-'''sleep(0.5)
-motor_a("forward", 50) #50
-motor_b("backward", 51) #54
-sleep(6) #6'''
-# stop for one minute
-#sleep(0.5)
-'''motor_a("forward", 50) # right turn
-motor_b("forward", 50)
-sleep(0.44)'''
-#motor_a("backward", 50) # left turn
-#motor_b("backward", 50)
-#sleep(0.405)
-#motor_a()
-#motor_b()
-#sleep(60)
