@@ -65,27 +65,12 @@ def turn_left():
     motor_b("backward", 50)
     sleep(0.32)
 
-while True:
-    motor_a("forward", 45)
-    motor_b("backward", 45)
-    sleep(0.1)
-    if line_sen.value() == 0:
-        stop()
-        turn_right()
-        stop()
-        break
-
-while True:
-    while True:
-        motor_a("forward", 45)
-        motor_b("backward", 45)
-        sleep(0.1)
-        if sensor_a.distance_cm() < 15: #object detected
-            stop()
-            # turn right
-            turn_right()
-            stop()
-            break
+def obstacle_maneuver():
+    motor_a("backward", 45)
+    motor_a("backward", 45)
+    sleep(1)
+    turn_right()
+    stop()
     motor_a("forward", 45)
     motor_b("backward", 45)
     sleep(0.8)
@@ -125,3 +110,33 @@ while True:
             turn_right()
             stop()
             break
+
+while True:
+    motor_a("forward", 45)
+    motor_b("backward", 45)
+    sleep(0.1)
+    if line_sen.value() == 0:
+        stop()
+        turn_right()
+        stop()
+        break
+
+while True:
+    motor_a("forward", 45)
+    motor_b("backward", 45)
+    sleep(0.1)
+    if sensor_a.distance_cm() < 15: #object detected
+        stop()
+        motor_a("forward", 45)
+        motor_b("backward", 45)
+        sleep(0.5)
+        stop()
+        if reed_switch.value() == 1:
+            # yay payload detected
+            servo_a.move(10)
+            servo_b.move(110)
+            sleep(0.5)
+            servo_c.move(180)
+            break
+        else:
+            obstacle_maneuver
