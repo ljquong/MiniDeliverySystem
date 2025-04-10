@@ -4,10 +4,12 @@ from servo import Servo
 
 # right servo
 # closed position = 110
+# open position = 70
 servo_a = Servo(Pin(22))
 
 # left servo
 # closed position = 10
+# open position = 50
 servo_b = Servo(Pin(21))
 
 # lift servo
@@ -59,6 +61,10 @@ def stop():
     motor_a()
     motor_b()
     sleep(0.5)
+
+# open servos
+servo_a.move(70)
+servo_b.move(50)
 
 while True:
     motor_a("forward", 45)
