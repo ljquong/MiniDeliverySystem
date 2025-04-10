@@ -14,8 +14,6 @@ motor_b_en = PWM(Pin(2))
 motor_b_en.freq(1000)
 motor_b_correction = 0.92
 
-led = Pin('LED', Pin.OUT)
-
 # front sensor
 sensor_a = HCSR04(trigger_pin=1, echo_pin=5)
 # back sensor
@@ -56,8 +54,6 @@ def stop():
     motor_b()
     sleep(1)
     
-# a: 50
-# b: 51
 while True:
     motor_a("forward", 45)
     motor_b("backward", 45)
