@@ -1,5 +1,3 @@
-# from start up area to the right, with obstacle detection and payload pickup
-
 from machine import Pin, PWM, ADC
 from time import sleep
 from hcsr04 import HCSR04
@@ -11,6 +9,7 @@ servo_c = Servo(Pin(20))
 
 reed_switch = Pin(0, Pin.IN, Pin.PULL_DOWN)
 line_sen = Pin(26, Pin.IN)
+ir = ADC(28)
 
 motor_a_in1 = Pin(14, Pin.OUT)
 motor_a_in2 = Pin(13, Pin.OUT)
@@ -67,7 +66,7 @@ def turn_left():
     sleep(0.32)
     stop()
 
-def obstacle_maneuver():
+def front_obstacle_maneuver():
     motor_a("backward", 45)
     motor_a("backward", 45)
     sleep(1)
@@ -110,6 +109,54 @@ def obstacle_maneuver():
             turn_right()
             break
 
+def back_obstacle_maneuver():
+    motor_a("forward", 45)
+    motor_a("forward", 45)
+    sleep(1)
+    stop()
+    turn_left()
+    motor_a("forward", 45)
+    motor_b("backward", 45)
+    sleep(0.8)
+    while True:
+        motor_a("forward", 45)
+        motor_b("backward", 45)
+        sleep(0.1)
+        if sensor_c.distance_cm() > 35: #obstacle passed
+            motor_a("forward", 45)
+            motor_b("backward", 45)
+            sleep(0.4)
+            stop()
+            turn_left()
+            break
+    motor_a("forward", 45)
+    motor_b("backward", 45)
+    sleep(0.8)
+    while True:
+        motor_a("forward", 45)
+        motor_b("backward", 45)
+        sleep(0.1)
+        if sensor_c.distance_cm() > 35: #obstacle passed
+            motor_a("forward", 45)
+            motor_b("backward", 45)
+            sleep(0.4)
+            stop()
+            turn_left()
+            break
+    while True:
+        motor_a("forward", 40)
+        motor_b("backward", 40)
+        sleep(0.1)
+        if line_sen.value() == 0:
+            stop()
+            turn_left()
+            break
+
+# reset servos to lower, open position
+servo_c.move(0)
+servo_a.move(70)
+servo_b.move(50)
+
 while True:
     motor_a("forward", 45)
     motor_b("backward", 45)
@@ -131,10 +178,43 @@ while True:
         stop()
         if reed_switch.value() == 1:
             # yay payload detected
-            servo_a.move(10)
-            servo_b.move(110)
+            servo_a.move(110)
+            servo_b.move(10)
             sleep(0.5)
-            servo_c.move(180)
+            servo_c.move(120)
             break
         else:
-            obstacle_maneuver
+            front_obstacle_maneuver
+    # by the end of this loop the robot should have picked up the payload
+
+while True:
+    motor_a("backward", 45)
+    motor_b("forward", 45)
+    sleep(0.1)
+    if sensor_b.distance_cm() < 15: #OBSTACLE detected
+        stop()
+        back_obstacle_maneuver()
+        break
+    # by the end of this loop the robot should be past the obstacle, wherever it is
+
+while True:
+    motor_a("backward", 45)
+    motor_b("forward", 45)
+    sleep(0.1)
+    if ir.read_u16() > 2300: #DROP OFF AREA detected
+        stop()
+        turn_right()
+        turn_right()
+        # move forward slightly to ensure payload is fully in drop of area
+        motor_a("forward", 45)
+        motor_b("backward", 45)
+        sleep(1)
+        stop()
+        sleep(0.5)
+        servo_c.move(0)
+        servo_a.move(70)
+        servo_b.move(50)
+        sleep(0.5)
+        break
+        # payload should be dropped off!
+# for continuous course run put everything after start up to black line find in while true
