@@ -59,18 +59,20 @@ def turn_right():
     motor_a("forward", 50) # right turn
     motor_b("forward", 50)
     sleep(0.3)
+    stop()
 
 def turn_left():
     motor_a("backward", 50) # left turn
     motor_b("backward", 50)
     sleep(0.32)
+    stop()
 
 def obstacle_maneuver():
     motor_a("backward", 45)
     motor_a("backward", 45)
     sleep(1)
-    turn_right()
     stop()
+    turn_right()
     motor_a("forward", 45)
     motor_b("backward", 45)
     sleep(0.8)
@@ -84,7 +86,6 @@ def obstacle_maneuver():
             sleep(0.4)
             stop()
             turn_left()
-            stop()
             break
     motor_a("forward", 45)
     motor_b("backward", 45)
@@ -99,7 +100,6 @@ def obstacle_maneuver():
             sleep(0.4)
             stop()
             turn_left()
-            stop()
             break
     while True:
         motor_a("forward", 40)
@@ -108,7 +108,6 @@ def obstacle_maneuver():
         if line_sen.value() == 0:
             stop()
             turn_right()
-            stop()
             break
 
 while True:
@@ -118,7 +117,6 @@ while True:
     if line_sen.value() == 0:
         stop()
         turn_right()
-        stop()
         break
 
 while True:
