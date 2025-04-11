@@ -63,6 +63,8 @@ def stop():
     sleep(0.5)
 
 # open servos
+servo_c.move(0)
+sleep(1)
 servo_a.move(70)
 servo_b.move(50)
 
@@ -72,22 +74,24 @@ while True:
     sleep(0.1)
     if reed_switch.value() == 1:
         stop()
+        sleep(1)
         break
     
 # close servos
 servo_a.move(110)
 servo_b.move(10)
-sleep(0.5)
+sleep(1)
 # lift platform
-servo_c.move(90)
-sleep(0.5)
+servo_c.move(120)
+sleep(1)
 #move forward for 5 seconds
 motor_a("forward", 45)
 motor_b("backward", 45)
 sleep(5)
 stop()
 # lower platform
-servo_c.move(130)
+servo_c.move(0)
+sleep(1)
 # open servos
 servo_a.move(70)
 servo_b.move(50)
