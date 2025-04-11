@@ -1,4 +1,4 @@
-# from start up area to the right, with obstacle detection
+# from start up area to the right, with obstacle detection and payload pickup
 
 from machine import Pin, PWM, ADC
 from time import sleep
